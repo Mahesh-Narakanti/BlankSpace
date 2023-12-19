@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="sha512-c+Y2SUAR5GedFiH+xUEymwX8gqtrin2pXpFizf4dE6gYCL0fME5jmSSpGGpiRaxiijN6/1Q2tXO7DL+oDPtq3g==" crossorigin=""/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 400px;
+    }
+    #tower-details {
+      display: none;
+      position: absolute;
+      background-color: #e00202;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+    }
+  </style>
+  <title>Transmission Towers Map</title>
+</head>
+<body>
+
+<div id="map"></div>
+<div id="tower-details"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="sha512-c+Y2SUAR5GedFiH+xUEymwX8gqtrin2pXpFizf4dE6gYCL0fME5jmSSpGGpiRaxiijN6/1Q2tXO7DL+oDPtq3g==" crossorigin=""></script>
+
+<script>
+  // Sample tower data
+  const towers = [
+    { name: 'Tower A', pathCoordinates: [[40.7128, -74.0060], [40.7128, -73.8060], [40.5128, -73.8060]] },
+    { name: 'Tower B', pathCoordinates: [[34.0522, -118.2437], [34.2522, -118.2437], [34.2522, -118.0437]] },
+    // Add more towers as needed
+  ];
+
+  const map = L.map('map').setView([37.7749, -122.4194], 8);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  towers.forEach(tower => {
+    const towerPath = L.polygon(tower.pathCoordinates, { color: 'blue' }).addTo(map);
+
+    towerPath.on('mouseover', () => {
+      showTowerDetails(tower);
+    });
+
+    towerPath.on('mouseout', () => {
+      hideTowerDetails();
+    });
+  });
+
+  function showTowerDetails(tower) {
+    const towerDetails = document.getElementById('tower-details');
+    //towerDetails.innerHTML = `<strong>${tower.name}</strong>`;
+    towerDetails.style.display = 'block';
+  }
+
+  function hideTowerDetails() {
+    document.getElementById('tower-details').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

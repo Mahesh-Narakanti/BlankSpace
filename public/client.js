@@ -36,7 +36,6 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 // earth geometry
 const earthGeometry = new THREE.SphereGeometry(0.6, 32, 32);
-
 // earth material
 const earthMaterial = new THREE.MeshPhongMaterial({
     roughness: 1,
